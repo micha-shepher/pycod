@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+ <object pk="1" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">admin</field>
+  <field type="CharField" name="model">logentry</field>
+ </object>
+ <object pk="2" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">auth</field>
+  <field type="CharField" name="model">permission</field>
+ </object>
+ <object pk="3" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">auth</field>
+  <field type="CharField" name="model">group</field>
+ </object>
+ <object pk="4" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">auth</field>
+  <field type="CharField" name="model">user</field>
+ </object>
+ <object pk="5" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">contenttypes</field>
+  <field type="CharField" name="model">contenttype</field>
+ </object>
+ <object pk="6" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">sessions</field>
+  <field type="CharField" name="model">session</field>
+ </object>
+ <object pk="9" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">cod</field>
+  <field type="CharField" name="model">stvassets</field>
+ </object>
+ <object pk="10" model="contenttypes.contenttype">
+  <field type="CharField" name="app_label">cod</field>
+  <field type="CharField" name="model">stvqueryoutput</field>
+ </object>
+ <object pk="p3rm8bdevc8u7kgtxgl6tvemerivqpjl" model="sessions.session">
+  <field type="TextField" name="session_data">N2M3MmI4MjEyNDE5MDJkN2UzZjQ1NDNkOTI3MmI0NTQ0MGQ4Y2I3ZDp7Il9hdXRoX3VzZXJfaGFzaCI6Ijg0Y2Q5M2EwNWM0MDljN2MzOTg2YWRjNGQyOTQ5MDBhNzRmMDI5ZWEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=</field>
+  <field type="DateTimeField" name="expire_date">2015-05-04T14:53:02+00:00</field>
+ </object>
