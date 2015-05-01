@@ -59,7 +59,11 @@ class Populate(object):
         if logo.has_key('@alternativeHD'):
             alternativeHD = logo['@alternativeHD']
         if logo.has_key('#text'):
-            logofile = logo['#text']
+            text = logo['#text']
+            if text in ['False', 'True']:
+                logofile = 'FixMeAgeRating-{}'.format(name)
+            else:
+                logofile = logo['#text']
 
         if LogoProfile.objects.filter(name=name).exists():
             l =  LogoProfile.objects.get(name=name)
@@ -79,7 +83,7 @@ class Populate(object):
         try:
             l.save()
         except ValueError:
-            print l.name, l.position,  l.required, l.size, l.offset, l.sizeHD, l.offsetHD, l.alternativeHD, l.logofile
+            print 'ERROR SAVING ', l.name, l.position,  l.required, l.size, l.offset, l.sizeHD, l.offsetHD, l.alternativeHD, l.logofile
             l.offset,l.size,l.offsetHD,l.sizeHD=('0.0',)*4
             l.save()
 
@@ -148,6 +152,35 @@ class Populate(object):
             print 'cannot save subtitle for client {}'.format(client)
 
     #-----------------------
+
+    def populate_parts(self):
+        '''
+        get all parts of a specific title and save them.
+        '''
+        Part.objects.all().delete()
+        for asset in STVAssets.objects.all():
+            subpart = asset.txid[:-2]
+            if STVAssets.objects.filter(txid__startswith = subpart).count() > 1:
+                print 'part {} found.'.format(asset.txid)
+                partset = STVAssets.objects.filter(txid__startswith = subpart)
+                txids = {}
+                for part in partset:
+                    if txids.has_key(part.txid):
+                        txids[part.txid] += 1
+                    else:
+                        txids[part.txid] = 1
+                if len(txids) > 1:
+                    for key in txids.keys():
+                        print 'trying to save part {} {}'.format(key, part.programname)
+                        p = Part( stvassetid = part, partnumber = part.txid, timepatched = False,
+                                  ibms_som = part.som, ibms_eom = part.eom, ibms_duration = part.ibms_duration)
+                        p.save()
+                        print 'part {} saved.'.format(part)
+                else:
+                    print '.',
+            else:
+                print '-',
+
     def populate_client(self, name, channel, client):
 
 
@@ -166,7 +199,7 @@ class Populate(object):
         _hdprofile = client['HDprofile']
         _sdprofile = client['SDprofile']
         _logo = self.populate_logo(_channel, client, client['Logo']) # creates the LogoProfile if necessary
-        _agerating = self.populate_logo(_channel, client, client['AgeRating'])
+        _agerating = self.populate_logo('{}-age rating'.format(_channel), client, client['AgeRating'])
         _dualaudio = client['dualaudio']['#text'] == u'True'
         _bumperfront = client['Bumper']['@front']
         _bumperback = client['Bumper']['@back']
@@ -213,5 +246,6 @@ if __name__ == '__main__':
 
 
     django.setup()
-    start()
+    # populate_clients()
+    Populate().populate_parts()
 

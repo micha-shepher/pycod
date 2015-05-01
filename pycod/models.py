@@ -49,24 +49,26 @@ class Part(models.Model):
     When this is done, timepatched is set to true.
     '''
     stvassetid  = models.ForeignKey('STVAssets')
-    partnumber  = models.IntegerField()
+    partnumber  = models.CharField( max_length = 50, primary_key = True, null = False, default='-1')
     timepatched = models.BooleanField(default=False)
     ibms_som    = models.CharField( max_length=50, blank=True, null=True)
     ibms_eom    = models.CharField( max_length=50, blank=True, null=True)
     ibms_duration = models.CharField( max_length=50, blank=True, null=True)
-
+#
     def __unicode__(self):
-        return u'{}: {}-{}'.format(self.stvassetid, self.partnumber, self.ibms_duration)
-
+        return u'{}: {}'.format(self.partnumber, self.ibms_duration)
+#
 class Track(models.Model):
     '''each asset may have one or more lang related audio tracks.
     '''
     stvassetid = models.ForeignKey('STVAssets')
+    partnumber  = models.CharField( max_length = 50, primary_key = True, null = False, default='-1')
+    timepatched = models.BooleanField(default=False)
     tracknumber = models.IntegerField()
     lang   = models.CharField(max_length=10, choices=lang_choices())
-
+#
     def __unicode__(self):
-        return u'{}: {}-{}'.format(self.stvassetid, self.tracknumber, self.lang)
+        return u'{}: {}-{}'.format(self.partnumber, self.tracknumber, self.lang)
 
 class LogoProfile(models.Model):
     '''Logo determines the properties of a logo displayed (or not). This is a profile relation (one to one).'''
@@ -111,7 +113,7 @@ class Subtitle(models.Model):
                    ('PAC','PAC'),
                    ('BVB','BVB'))
     client = models.ForeignKey('Client')
-    lang   = models.CharField(max_length=10)
+    lang   = models.CharField(max_length=10, choices=lang_choices())
     type   = models.CharField(max_length=10, choices=SUB_CHOICES)
 
     def __unicode__(self):
